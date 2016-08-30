@@ -1,0 +1,35 @@
+1. Create a collection named orders.
+db.createCollection('orders')
+
+2. Insert at least 3 documents that represent an order. IMPORTANT: See section below for fields.
+var orders = db.orders
+
+orders.insert({ orderDate: new Date('August 29, 2016'), orderTotal: '94.40', lineItems: [{unitPrice: '5.25', quantity: '12', productName: 'chips'},{unitPrice: '3.40', quantity: '7', productName: 'tissue'},{unitPrice: '1.90', quantity: '4', productName: 'pen'}]})
+
+orders.insert({ orderDate: new Date('August 10, 2016'), orderTotal: '118.10', lineItems: [{unitPrice: '6.25', quantity: '5', productName: 'ice cream'},{unitPrice: '3.10', quantity: '9', productName: 'notebooks'},{unitPrice: '2.95', quantity: '20', productName: 'juice'}]})
+
+orders.insert({ orderDate: new Date('July 1, 2016'), orderTotal: '64.00', lineItems: [{unitPrice: '5.00', quantity: '6', productName: 'gift card'},{unitPrice: '3.00', quantity: '8', productName: 'eggo'},{unitPrice: '2.00', quantity: '5', productName: 'markers'}]})
+
+3. Find a single order document, any order document.
+orders.find({'orderTotal': '64.00'})
+
+
+4. Find all orders and make them look pretty.
+orders.find().pretty()
+
+5. Find all orders with an orderDate that is prior to 1/1/2016.
+orders.find({"orderDate" : { $lt : new Date("January 1, 2016") }})
+
+
+6. Find all orders with an orderDate that is after 1/1/2016.
+orders.find({"orderDate" : { $gt : new Date("January 1, 2016") }})
+
+
+7. Find orders with lineItems that have a quantity that is less than 50, but greater than 5. HINT: Look at $and and dot notation.
+orders.find({"lineItems.1" : {$and [{$lt : "50" },{$gt : "5"}]}})
+
+8. Update one of your line items to 42.99. HINT: Look at dot notation
+orders.update({"_id" : ObjectId("57c4921b39f6edaae7e0b12b")}, {$set:{'lineItems.0.unitPrice':'42.99'}})
+
+9. Remove one of your orders.
+orders.remove({'orderTotal': {$lt: '90.00' }})
